@@ -64,7 +64,6 @@ request(url, function(error, response, html) {
     }
 });
 
-
 function downloadPdf(link, name) {
     // request.get(link).pipe(fs.createWriteStream(name + ".pdf"));
     request(link).pipe(fs.createWriteStream(name + ".pdf"));
