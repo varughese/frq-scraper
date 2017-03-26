@@ -3,7 +3,12 @@ var cheerio = require("cheerio");
 var fs = require("fs");
 var colors = require('colors');
 
-var url = "http://apcentral.collegeboard.com/apc/members/exam/exam_information/2084.html";
+var args = process.argv.slice(2);
+if (args.length == 0) {
+    console.log("Error: no exam specified")
+    process.exit()
+}
+var url = "http://apcentral.collegeboard.com/apc/public/exam/exam_information/" + args[0] + ".html";
 
 function getLinkNames(html, $, links, titleFn, additionalTitle) {
     html.each(function(a, el) {
@@ -13,7 +18,6 @@ function getLinkNames(html, $, links, titleFn, additionalTitle) {
         if(additionalTitle) {
             title+=additionalTitle;
         }
-
 
         if(href.substring(0, 4) !== "http") {
             href = "http://apcentral.collegeboard.com" + href;
@@ -57,7 +61,6 @@ request(url, function(error, response, html) {
                 downloadPdf(links[i].href, examName + "/" + links[i].title);
             }
         });
-
     }
 });
 
