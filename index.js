@@ -38,6 +38,20 @@ function getYear($, el) {
     return year;
 }
 
+function downloadPdf(link, name) {
+    // request.get(link).pipe(fs.createWriteStream(name + ".pdf"));
+    request(link).pipe(fs.createWriteStream(name + ".pdf"));
+    //
+    // request(url, function(err, response, pdf) {
+    //     if(err) {
+    //         console.error(err);
+    //     } else {
+    //         console.log("LINK NAME", link);
+    //         console.log(pdf.substring(0, 20));
+    //     }
+    // });
+}
+
 request(url, function(error, response, html) {
     if (!error) {
         var $ = cheerio.load(html);
@@ -49,6 +63,10 @@ request(url, function(error, response, html) {
         var links = [];
         var examName = examTitle.substring(4, examTitle.length-5).replace(':', "");
 
+        if (!examName) {
+            console.log("Exam not found.");
+            process.exit(1);
+        }
         console.log("Downloading FRQs for " + examName.red);
 
         getLinkNames(linkHTML, $, links, getYear);
@@ -63,17 +81,3 @@ request(url, function(error, response, html) {
         });
     }
 });
-
-function downloadPdf(link, name) {
-    // request.get(link).pipe(fs.createWriteStream(name + ".pdf"));
-    request(link).pipe(fs.createWriteStream(name + ".pdf"));
-    //
-    // request(url, function(err, response, pdf) {
-    //     if(err) {
-    //         console.error(err);
-    //     } else {
-    //         console.log("LINK NAME", link);
-    //         console.log(pdf.substring(0, 20));
-    //     }
-    // });
-}
