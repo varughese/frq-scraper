@@ -3,11 +3,14 @@ var cheerio = require("cheerio");
 var fs = require("fs");
 var colors = require('colors');
 
-var args = process.argv.slice(2);
-if (args.length == 0) {
-    console.log("Error: no exam specified")
-    process.exit()
+var args = process.argv.slice(2) || 2008;
+if (args.length === 0) {
+    console.log("Error: no exam specified");
+    process.exit();
 }
+
+// TODO make interface to select an exam
+
 var url = "http://apcentral.collegeboard.com/apc/public/exam/exam_information/" + args[0] + ".html";
 
 function getLinkNames(html, $, links, titleFn, additionalTitle) {
